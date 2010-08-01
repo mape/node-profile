@@ -36,8 +36,7 @@ exec(command, function (error, stdout, stderr) {
 	});
 });
 
-function colorFormat(profileLog)
-{
+function colorFormat(profileLog) {
 	var lines = profileLog.split('\n');
 	var newLog = [];
 
@@ -56,7 +55,6 @@ function colorFormat(profileLog)
 	return newLog.join('\n');
 }
 
-function style(colorCode, str)
-{
+function style(colorCode, str) {
 	return '\x1B[1m\x1B['+colorCode+'m'+str+'\x1B[0m';
 }
