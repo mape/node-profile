@@ -2,6 +2,12 @@
 
 A script that makes profiling node.js apps a little easier.
 
+## Installation
+
+Via [npm](http://github.com/isaacs/npm):
+
+    $ npm install connect-assetmanager
+
 ## Usage
 `> nodeprofile yourapp.js`
 
