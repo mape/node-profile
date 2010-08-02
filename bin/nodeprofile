@@ -7,7 +7,7 @@ process.addListener('SIGINT', function () {});
 
 var logName = 'profile-'+Date.now()+Math.floor(Math.random()*10000)+'.log';
 
-var command = 'node --prof --logfile='+logName+' '+process.ARGV[2];
+var command = 'node --prof --log-snapshot-positions --logfile='+logName+' '+process.ARGV[2];
 
 console.log('Running: '+command);
 
@@ -45,7 +45,7 @@ function colorFormat(profileLog) {
 			newLog.push(style(33, line));
 		} else if (line.match(/^[^ ]/)) {
 			newLog.push(style(37, line));
-		} else if (line.match(/^   [^ ]/)) {
+		} else if (line.match(/^   [^ 0-9]/)) {
 			newLog.push(style(35, line));
 		} else {
 			newLog.push(line.replace(/ *([^ ]+)/, function(match){return style(31, match);})
