@@ -27,8 +27,7 @@ exec(command).on('exit', function (code, signal) {
 		if (tickLocations[0]) {
 			exec('python '+tickLocations[0]+' '+logName, function (err, stdout, stderr) {
 				if (!err) {
-					if (args.o)
-					{
+					if (args.o) {
 						fs.writeFile(args.o, stdout, function (err) {
 							if (err) {
 								throw err;
@@ -44,7 +43,9 @@ exec(command).on('exit', function (code, signal) {
 				}
 
 				fs.unlink(logName, function (err) {
-					if (err) throw err;
+					if (err) {
+						throw err;
+					}
 					console.log('Successfully deleted temporary: '+logName);
 				});
 			});
