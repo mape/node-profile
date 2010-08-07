@@ -1,25 +1,42 @@
-#!/usr/bin/env node
+#!/usr/bin / env node
 
-var exec=require('child_process').exec
+var exec = require('child_process').exec
 , fs = require('fs');
 
 process.addListener('SIGINT', function () {});
 
 var logName = 'profile-'+Date.now()+Math.floor(Math.random()*10000)+'.log';
+var args = {};
+process.ARGV.splice(3).join(' ').split('-').forEach(function (arg) {
+	var argParts = arg.split('=');
+
+	if (argParts[0] && argParts[1]) {
+		args[argParts[0].trim()] = argParts[1].trim();
+	}
+});
 
 var command = 'node --prof --log-snapshot-positions --logfile='+logName+' '+process.ARGV[2];
 
 console.log('Running: '+command);
 
-exec(command, function (error, stdout, stderr) {
-	exec('locate linux-tick-processor.py', function(err, stdout, stderr) {
+exec(command).on('exit', function (code, signal) {
+	exec('locate linux-tick-processor.py', function (err, stdout, stderr) {
 		if (err) throw err;
 
 		var tickLocations = stdout.trim().split('\n');
 		if (tickLocations[0]) {
-			exec('python '+tickLocations[0]+' '+logName, function(err, stdout, stderr) {
-				console.log(stderr);
+			exec('python '+tickLocations[0]+' '+logName, function (err, stdout, stderr) {
 				if (!err) {
+					if (args.o)
+					{
+						fs.writeFile(args.o, stdout, function (err) {
+							if (err) {
+								throw err;
+							} else {
+								console.log(style(33, '\nSaved output to '+args.o));
+							}
+						});
+					}
 					console.log(colorFormat(stdout));
 				} else {
 					console.log(style(31, '\nCould not generate profile.'));
@@ -40,7 +57,7 @@ function colorFormat(profileLog) {
 	var lines = profileLog.split('\n');
 	var newLog = [];
 
-	lines.forEach(function(line) {
+	lines.forEach(function (line) {
 		if (line.match(/ *\[.*\]/)) {
 			newLog.push(style(33, line));
 		} else if (line.match(/^[^ ]/)) {
@@ -48,9 +65,11 @@ function colorFormat(profileLog) {
 		} else if (line.match(/^   [^ 0-9]/)) {
 			newLog.push(style(35, line));
 		} else {
-			newLog.push(line.replace(/ *([^ ]+)/, function(match){return style(31, match);})
-				.replace(/([0-9]+\.[0-9]+%)/g, function(match){return style(33, match);})
-			);
+			newLog.push(line.replace(/ *([^ ]+)/, function (match) {
+				return style(31, match);
+			}).replace(/([0-9]+\.[0-9]+%)/g, function (match) {
+				return style(33, match);
+			}));
 		}
 	});
 

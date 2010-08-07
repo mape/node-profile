@@ -1,7 +1,7 @@
 {
   "name": "profile",
   "description": "A script that makes profiling node.js apps easier.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author" : "Mathias Pettersson <mape@mape.me>",
   "bin": { "nodeprofile": "./bin/nodeprofile" },
   "engines": { "node": ">= 0.1.100" },
