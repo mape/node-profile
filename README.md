@@ -9,7 +9,10 @@ Via [npm](http://github.com/isaacs/npm):
     $ npm install profile
 
 ## Usage
+### Output to stdout
 `> nodeprofile yourapp.js`
+### Output to file
+`> nodeprofile yourapp.js -o=profile.txt`
 
 ## "Dependencies"
 * python
