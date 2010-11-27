@@ -3,7 +3,7 @@ if [ $PLATFORM == "Darwin" ]
 then
     if [ "$(locate mac-tick-processor)" == "" ]
         then 
-        echo "Couldn't find linux-tick-processor.py"
+        echo "Couldn't find mac-tick-processor"
         exit 1
     fi
 elif [ $PLATFORM == "Linux" ]
