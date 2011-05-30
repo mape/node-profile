@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
 var exec = require('child_process').exec
-, fs = require('fs');
+, fs = require('fs')
+, os = require('os')
+, path = require('path');
 
 process.addListener('SIGINT', function () {});
 
@@ -15,17 +17,28 @@ process.ARGV.splice(3).join(' ').split('-').forEach(function (arg) {
 	}
 });
 
-var command = 'node --prof --log-snapshot-positions --logfile='+logName+' '+process.ARGV[2];
+if(path.extname(process.ARGV[2]) === '.coffee') {
+  var command = 'coffee --nodejs "--prof --log-snapshot-positions --logfile='+logName+'" '+process.ARGV[2];
+} else {
+  var command = 'node --prof --log-snapshot-positions --logfile='+logName+' '+process.ARGV[2];
+}
+
+
+var tick_processor = "linux-tick-processor"
+
+if(os.type() === 'Darwin') {
+  tick_processor = "mac-tick-processor"
+}
 
 console.log('Running: '+command);
 
 exec(command).on('exit', function (code, signal) {
-	exec('locate linux-tick-processor.py', function (err, stdout, stderr) {
+	exec('locate '+tick_processor, function (err, stdout, stderr) {
 		if (err) throw err;
 
 		var tickLocations = stdout.trim().split('\n');
 		if (tickLocations[0]) {
-			exec('python '+tickLocations[0]+' '+logName, function (err, stdout, stderr) {
+			exec(tickLocations[0]+' '+logName, function (err, stdout, stderr) {
 				if (!err) {
 					if (args.o) {
 						fs.writeFile(args.o, stdout, function (err) {

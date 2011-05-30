@@ -16,7 +16,8 @@ Via [npm](http://github.com/isaacs/npm):
 
 ## "Dependencies"
 * python
-* That the `locate` command can find a copy of `linux-tick-processor.py` (bundled with node.js)
+* [SCONS](http://www.scons.org/) (used to build the V8 debugger on first use) 
+* That the `locate` command can find a copy of `linux-tick-processor` (or `mac-tick-processor` on OS X). This is bundled with node.js.
 
 ## Output
 

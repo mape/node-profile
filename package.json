@@ -1,9 +1,9 @@
 {
   "name": "profile",
   "description": "A script that makes profiling node.js apps easier.",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author" : "Mathias Pettersson <mape@mape.me>",
   "bin": { "nodeprofile": "./bin/nodeprofile" },
-  "engines": { "node": ">= 0.1.100" },
+  "engines": { "node": ">= 0.2.0" },
   "scripts" : { "preinstall" : "./scripts/preinstall.sh" }
 }
