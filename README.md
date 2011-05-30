@@ -13,6 +13,10 @@ Via [npm](http://github.com/isaacs/npm):
 `> nodeprofile yourapp.js`
 ### Output to file
 `> nodeprofile yourapp.js -o=profile.txt`
+### Lazy profiling (profiling disabled on startup)
+This is useful if you want to profile certain areas of your code using [bnoordhuis/node-profiler](https://github.com/bnoordhuis/node-profiler):
+
+`> nodeprofile yourapp.js --prof_lazy`
 
 ## "Dependencies"
 * python

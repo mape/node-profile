@@ -9,25 +9,28 @@ process.addListener('SIGINT', function () {});
 
 var logName = 'profile-'+Date.now()+Math.floor(Math.random()*10000)+'.log';
 var args = {};
+var profLazy = false;
 process.ARGV.splice(3).join(' ').split('-').forEach(function (arg) {
 	var argParts = arg.split('=');
 
+	if(argParts[0].trim() == "prof_lazy") {
+		profLazy = true;
+	}
 	if (argParts[0] && argParts[1]) {
 		args[argParts[0].trim()] = argParts[1].trim();
 	}
 });
 
 if(path.extname(process.ARGV[2]) === '.coffee') {
-  var command = 'coffee --nodejs "--prof --log-snapshot-positions --logfile='+logName+'" '+process.ARGV[2];
+	var command = 'coffee --nodejs "--prof'+(profLazy ? ' --prof_lazy':'')+' --log-snapshot-positions --logfile='+logName+'" '+process.ARGV[2];
 } else {
-  var command = 'node --prof --log-snapshot-positions --logfile='+logName+' '+process.ARGV[2];
+	var command = 'node --prof'+(profLazy ? ' --prof_lazy':'')+' --log-snapshot-positions --logfile='+logName+' '+process.ARGV[2];
 }
-
 
 var tick_processor = "linux-tick-processor"
 
 if(os.type() === 'Darwin') {
-  tick_processor = "mac-tick-processor"
+	tick_processor = "mac-tick-processor"
 }
 
 console.log('Running: '+command);
@@ -52,7 +55,7 @@ exec(command).on('exit', function (code, signal) {
 						console.log(colorFormat(stdout));
 					}
 				} else {
-					console.log(style(31, '\nCould not generate profile.'));
+					console.log(style(31, '\nCould not generate profile.\n\n'+err.message));
 				}
 
 				fs.unlink(logName, function (err) {
