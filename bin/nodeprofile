@@ -10,7 +10,7 @@ process.addListener('SIGINT', function () {});
 var logName = 'profile-'+Date.now()+Math.floor(Math.random()*10000)+'.log';
 var args = {};
 var profLazy = false;
-process.ARGV.splice(3).join(' ').split('-').forEach(function (arg) {
+process.argv.splice(3).join(' ').split('-').forEach(function (arg) {
 	var argParts = arg.split('=');
 
 	if(argParts[0].trim() == "prof_lazy") {
@@ -21,10 +21,10 @@ process.ARGV.splice(3).join(' ').split('-').forEach(function (arg) {
 	}
 });
 
-if(path.extname(process.ARGV[2]) === '.coffee') {
-	var command = 'coffee --nodejs "--prof'+(profLazy ? ' --prof_lazy':'')+' --log-snapshot-positions --logfile='+logName+'" '+process.ARGV[2];
+if(path.extname(process.argv[2]) === '.coffee') {
+	var command = 'coffee --nodejs "--prof'+(profLazy ? ' --prof_lazy':'')+' --log-snapshot-positions --logfile='+logName+'" '+process.argv[2];
 } else {
-	var command = 'node --prof'+(profLazy ? ' --prof_lazy':'')+' --log-snapshot-positions --logfile='+logName+' '+process.ARGV[2];
+	var command = 'node --prof'+(profLazy ? ' --prof_lazy':'')+' --log-snapshot-positions --logfile='+logName+' '+process.argv[2];
 }
 
 var tick_processor = "linux-tick-processor"
