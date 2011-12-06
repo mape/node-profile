@@ -1,6 +1,7 @@
 # node-profile
 
 A script that makes profiling node.js apps a little easier.
+Compatible with node v0.6.x
 
 ## Installation
 
