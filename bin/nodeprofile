@@ -39,7 +39,11 @@ exec(command).on('exit', function (code, signal) {
 	exec('locate '+tick_processor, function (err, stdout, stderr) {
 		if (err) throw err;
 
-		var tickLocations = stdout.trim().split('\n');
+		var tickLocations = stdout.trim().split('\n').filter(
+			function(location) {
+				location = location.split('/');
+				return (location[location.length - 1] === tick_processor);
+			});
 		if (tickLocations[0]) {
 			exec(tickLocations[0]+' '+logName, function (err, stdout, stderr) {
 				if (!err) {
