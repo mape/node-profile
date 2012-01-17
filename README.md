@@ -1,6 +1,7 @@
 # node-profile
 
 A script that makes profiling node.js apps a little easier.
+Compatible with node v0.6.x
 
 ## Installation
 
@@ -22,6 +23,13 @@ This is useful if you want to profile certain areas of your code using [bnoordhu
 * python
 * [SCONS](http://www.scons.org/) (used to build the V8 debugger on first use) 
 * That the `locate` command can find a copy of `linux-tick-processor` (or `mac-tick-processor` on OS X). This is bundled with node.js.
+
+## Pre-configuration
+
+    $ cd /usr/src/node
+    $ cd deps/v8
+    $ scons prof=on
+    $ export PATH="${PATH}:/usr/src/node/deps/v8"
 
 ## Output
 
